@@ -8,7 +8,10 @@ Voor snelle navigatie is er een inhoudstafel voorzien
 
 Inhoudstafel
 ===
-
+- [Inhoudstafel](#inhoudstafel)
+- [Section 2: simple app Color button](#section-2--simple-app-color-button)
+- [Section 3: ESLint with Testing Library + Prettier](#section-3--eslint-with-testing-library---prettier)
+- [Section 4: Sundaes On Demand: Form review and popover](#section-4--sundaes-on-demand--form-review-and-popover)
 
 
 
