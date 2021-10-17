@@ -21,7 +21,6 @@ Section 2: simple app Color button
 In dit hoofdstuk wordt een simpele app gemaakt: een knop waarmee je kleur kan veranderen
 
 De eerste simpele test bekijkt of dat de knop de juiste kleur heeft (Er zijn 2 states, blue of red. Als de knop red is dan moet er tekst staan dat zegt "change to blue" en omgekeerd)
-Links staat de test, rechts de applicatie code
 ![](https://i.ibb.co/bF1Mw5Q/image.png)
 ![](https://i.ibb.co/f2MPXWz/image.png)
 
