@@ -22,6 +22,7 @@ In dit hoofdstuk wordt een simpele app gemaakt: een knop waarmee je kleur kan ve
 
 De eerste simpele test bekijkt of dat de knop de juiste kleur heeft (Er zijn 2 states, blue of red. 
 Als de knop red is dan moet er tekst staan dat zegt "change to blue" en omgekeerd)
+
 ![](https://i.ibb.co/bF1Mw5Q/image.png)
 ![](https://i.ibb.co/f2MPXWz/image.png)
 
@@ -31,6 +32,7 @@ Vervolgens voeren we de test uit via het npm script "test" (of via terminal `npm
 
 De volgende taak is om een checkbox toe te voegen aan de pagina en vervolgens te checken of de checkbox gevonden kan worden. 
 De checkbox zelf zorgt ervoor dat de knop aan en uit kan. Default state is aan
+
 ![](https://i.ibb.co/KsYPm2Z/image.png)
 
 Voor de rest van dit hoofdstuk, zijn er code quizzes voorzien:
