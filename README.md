@@ -23,3 +23,6 @@ Niet gewerkt aan het project door deadlines van andere vakken, volgende week inh
 - Verder gewerkt aan Section 2 **1u**
 - Section 2 Code quizzes: quizzes om met de leerstof te oefenen **1u**
 - Section 3: ESLint with Testing Library + Prettier: Setup van linter en prettier voor handige code formatting **20min**
+
+## Week 5 [18/10 - 25/10]
+- Begonnen aan Section 4: Form review testing **30min**

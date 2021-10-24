@@ -37,6 +37,7 @@ Voor de rest van dit hoofdstuk, zijn er code quizzes voorzien:
 "When the checkbox is check, button should be disabled"
 
 Dit is het antwoord voor deze test
+
 ![](https://i.ibb.co/MR0122f/image.png)
 
 
