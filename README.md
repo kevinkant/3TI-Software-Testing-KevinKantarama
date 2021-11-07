@@ -26,3 +26,11 @@ Niet gewerkt aan het project door deadlines van andere vakken, volgende week inh
 
 ## Week 5 [18/10 - 25/10]
 - Begonnen aan Section 4: Form review testing **30min**
+
+## Week 6 [25/10 - 31/10]
+Niet gewerkt door deadlines van Service management, data analytics en smart apps
+
+## Week 7 [31/10 - 07/11]
+- Section 4 afgewerkt **30min**
+- Verder gewerkt aan documentatie **30min**
+- Begonnen aan section 5: Simulating Server Response with Mock Service Worker **30min**
