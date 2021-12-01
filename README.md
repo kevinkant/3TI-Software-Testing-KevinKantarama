@@ -24,13 +24,32 @@ Niet gewerkt aan het project door deadlines van andere vakken, volgende week inh
 - Section 2 Code quizzes: quizzes om met de leerstof te oefenen **1u**
 - Section 3: ESLint with Testing Library + Prettier: Setup van linter en prettier voor handige code formatting **20min**
 
+--
 ## Week 5 [18/10 - 25/10]
 - Begonnen aan Section 4: Form review testing **30min**
 
+--
 ## Week 6 [25/10 - 31/10]
 Niet gewerkt door deadlines van Service management, data analytics en smart apps
 
+--
 ## Week 7 [31/10 - 07/11]
-- Section 4 afgewerkt **30min**
+- Section 4 afgewerkt **30min** 
 - Verder gewerkt aan documentatie **30min**
+
+
+--
+## Week 8 [07/11 - 14/11]
+- Section 4 code quizzes en optionele stukken afgewerkt **30min**
+- Niet gewerkt door deadlines van Digital Marketing en Smart Apps
+
+--
+## Week 9 [14/11 - 24/11]
 - Begonnen aan section 5: Simulating Server Response with Mock Service Worker **30min**
+
+
+# Kwartaal 2
+---
+## Week 1 [24/11 - 01/12]
+- Verder gewerkt aan section 5: **1u**
+- Documentatie MSW bekeken **30min**
