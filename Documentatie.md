@@ -13,6 +13,12 @@ Inhoudstafel
 - [Section 3: ESLint with Testing Library + Prettier](#section-3--eslint-with-testing-library---prettier)
 - [Section 4: Sundaes On Demand: Form review and popover](#section-4--sundaes-on-demand--form-review-and-popover)
 
+Externe Documentatielinks:
+
+https://github.com/testing-library/react-testing-library
+https://testing-library.com/docs/react-testing-library/cheatsheet/
+https://testing-library.com/docs/queries/about/
+https://mswjs.io/
 
 
 
@@ -23,8 +29,30 @@ In dit hoofdstuk wordt een simpele app gemaakt: een knop waarmee je kleur kan ve
 De eerste simpele test bekijkt of dat de knop de juiste kleur heeft (Er zijn 2 states, blue of red. 
 Als de knop red is dan moet er tekst staan dat zegt "change to blue" en omgekeerd)
 
-![](https://i.ibb.co/bF1Mw5Q/image.png)
-![](https://i.ibb.co/f2MPXWz/image.png)
+```JSX
+import { render, screen, fireEvent } from '@testing-library/react';
+import App from './App';
+
+test('button has correct initial color', () => {
+  render(<App />);
+
+  // find an element with a role of button and text of 'Change to blue'
+  const colorButton = screen.getByRole('button', { name: 'Change to blue' });
+
+  // expect the background color to be red
+  expect(colorButton).toHaveStyle({ backgroundColor: 'red' })
+
+  // click button
+  fireEvent.click(colorButton);
+
+  // expect the background color to be blue
+  expect(colorButton).toHaveStyle({ backgroundColor: 'blue' });
+
+  // expect the button text to be 'Change to red'
+  expect(colorButton).toHaveTextContent('Change to red');
+});
+```
+
 
 Vervolgens voeren we de test uit via het npm script "test" (of via terminal `npm test`) en is dit het resultaat
 ![](https://i.ibb.co/VMBhM4m/image.png)
@@ -33,16 +61,76 @@ Vervolgens voeren we de test uit via het npm script "test" (of via terminal `npm
 De volgende taak is om een checkbox toe te voegen aan de pagina en vervolgens te checken of de checkbox gevonden kan worden. 
 De checkbox zelf zorgt ervoor dat de knop aan en uit kan. Default state is aan
 
-![](https://i.ibb.co/KsYPm2Z/image.png)
+
+```JSX
+test('initial conditions', () => {
+  render(<App />);
+
+  // ceheck that the button starts out enbaled
+  const colorButton = screen.getByRole('button', { name: 'Change to blue'})
+  expect(colorButton).toBeEnabled();
+
+  // check that the checkbox starts out unchecked
+  const checkbox = screen.getByRole('checkbox');
+  expect(checkbox).not.toBeChecked();
+
+})
+```
 
 Voor de rest van dit hoofdstuk, zijn er code quizzes voorzien:
 
-**Q1: confirm button disable on Checkbox check**
-"When the checkbox is check, button should be disabled"
 
-Dit is het antwoord voor deze test
+```JSX
+//Question 1
+test('When checkbox is checked, button should be disabled', () => {
 
-![](https://i.ibb.co/MR0122f/image.png)
+  render(<App />)
+  const checkbox = screen.getByRole('checkbox', { name: 'Disable button'})
+  const colorButton = screen.getByRole('button', { name: 'Change to blue'})
+
+  //click the checkbox
+  fireEvent.click(checkbox);
+  expect(colorButton).toBeDisabled();
+
+  // Click again to disable checkbox
+  fireEvent.click(checkbox);
+  expect(colorButton).toBeEnabled();
+  
+})
+
+//Question 2
+test('Disabled button has gray background and revers to red', () => {
+  render(<App />)
+  const checkbox = screen.getByRole('checkbox', {name: 'Disable button'})
+  const colorButton = screen.getByRole('button', { name: 'Change to blue'})
+
+  //disable button
+  fireEvent.click(checkbox);
+  expect(colorButton).toHaveStyle({ backgroundColor: 'gray'})
+
+  // re-enable button
+  fireEvent.click(checkbox);
+  expect(colorButton).toHaveStyle({ backgroundColor: 'red'})
+});
+
+//Question 3
+test('Clicked disbaled button has gray background and reverts to blue', () => {
+  render(<App />)
+  const checkbox = screen.getByRole('checkbox', {name: 'Disable button'})
+  const colorButton = screen.getByRole('button', { name: 'Change to blue'})
+
+  // change button to blue
+  fireEvent.click(colorButton);
+
+  //disable button
+  fireEvent.click(checkbox);
+  expect(colorButton).toHaveStyle('background-color: gray')
+
+  // re-enable button
+  fireEvent.click(checkbox);
+  expect(colorButton).toHaveStyle('background-color: red')
+})
+```
 
 
 
@@ -70,9 +158,107 @@ Met deze app kunnen we de volgende zaken testen:
 - Async updates --> Wachten op verandering in de DOM voordat we assertions doen
 - Globale state via Context API van react --> niet kijken naar de implementatie, maar naar het testing gedrag als gezien door de gebruiker
 
-In de eerste instantie, testen we de opmaak en werking van de pagina, in het volgende hoofdstuk wordt de Mock Service Worker toegevoegd om het gedrag van een server na te bootsen
+In de eerste instantie, maken we een form om een bestelling te plaatsen. Deze form wordt getest op zijn functionaliteit en op popovers in de fields
+Eerst worden de checkboxes en buttons getest, dan de popover op de Terms&Conditions en later de text en button functionaliteit.
+
+Dit is de gehanteerde folder structuur 
+![](https://i.ibb.co/cySD43K/image.png)
+
+De eerste tests worden gemaakt om te bekijken of:
+- Checkbox unchecked by default
+- Checking checkbox enables button
+- Unchecking checkbox again disables button
+
+test 1
+```JSX
+import {
+  queryByText,
+  render,
+  screen,
+  waitForElementToBeRemoved,
+} from "@testing-library/react";
+import SummaryForm from "../SummaryForm";
+import userEvent from '@testing-library/user-event';
+
+// Test on the intial conditions (Checkbox is unchecked and button is disabled)
+test("Initial conditions", () => {
+  render(<SummaryForm />);
+
+  const checkbox = screen.getByRole("checkbox", {
+    name: /Terms and Conditions/i,
+  });
+  expect(checkbox).not.toBeChecked();
+
+  const confirmButton = screen.getByRole("button", { name: /Confirm order/i });
+  expect(confirmButton).toBeDisabled();
+});
+```
+test 2
+```JSX
+test("Checkbox disables button on first click and enables on the second click", () => {
+  render(<SummaryForm />);
+
+  const checkbox = screen.getByRole("checkbox", {
+    name: /Terms and Conditions/i,
+  });
+  const confirmButton = screen.getByRole("button", { name: /Confirm order/i });
+
+  // Click the checkbox to enable
+  userEvent.click(checkbox);
+  expect(confirmButton).toBeEnabled();
+
+  // Click the checkbox to disable
+  userEvent.click(checkbox);
+  expect(confirmButton).toBeDisabled();
+});
+```
+
+Vervolgens testen we een mouse popover (een element dat kan verdwijnen van de DOM).
+
+Om dit duidelijker te maken, wordt er uitleg gegven over "Screen query methods". Die hebben de volgende vorm: command[all]ByQueryType
+**Command**
+- get: expect element to be in DOM
+- query: expect element not to be in DOM
+- find: expect element to appear async (async/await example)
+
+**[All]**
+Include all --> Expect more than 1 match
+
+**QueryType**
+- Role (most preferred)
+- AltText (for img)
+- Text (display elements)
+- Form elements: Placeholdertext, LabelText and DisplayValue.
+
+Dit is dan de uiteindelijke test voor de popover
 
 
+test 3
+```JSX
+test("popover responds to hover", async() => {
+  render(<SummaryForm />);
+
+  //Popover starts out hidden
+  const nullPopover = screen.queryByText(
+    /no ice cream will actually be delivered/i
+  );
+  expect(nullPopover).not.toBeInTheDocument();
+
+  //Popover appears when mouse hovers over the checkbox label
+  const termsAndConditions = screen.getByText(/terms and conditions/i);
+  userEvent.hover(termsAndConditions);
+
+  const popover = screen.getByText(/no ice cream will actually be delivered/i);
+  expect(popover).toBeInTheDocument(); // This is added because it's makes the test more readable, it doesn't add any functional purpose
+
+  //Popover dissappears when the mouse hovers away
+  userEvent.unhover(termsAndConditions);
+  await waitForElementToBeRemoved(() =>
+    screen.queryByText(/no ice cream will actually be delivered/i)
+  );
+
+```
+De laatste test word Async uitgevoerd omdat de popover asynchroon verdwijnt. Om dit duidelijk te maken wordt het async/await principe toegevoegd zodat de test niet faalt.
 
 
 
@@ -88,9 +274,48 @@ De volgende tests zullen worden geimplementeerd:
 - Mock server response for /scoops and /toppings
 
 Mock Service Worker (https://mswjs.io/) heeft als doel:
-- Network calls ontavangen
+- Network calls ontvangen
 - Specifieke respsonses returnen
 
 MSW vermijdt network calls tijdens de tests
 
 MSW is een aparte component dat geinstalleerd wordt via `npm install msw`
+
+Via handlers wordt een REST API nagebootst. Een MSW handler heeft de volgende vorm: command
+
+rest.get('http://localhost:3000/scoops', (req, res, ctx) => {})
+- rest = Handler Type
+- HTTP method: get, post, etc.
+- De URL die de "nep" server  is
+- Response rsolver function: req (request object), res(function to create response), ctx(utility to build response)
+
+De eerste handler ziet er alsvolgt zo uit: 
+
+```JSX
+import { rest } from 'msw'
+
+export const handlers = [
+    rest.get('http://localhost:3000/scoops', (req, res, ctx) => {
+        return res(
+            ctx.json([
+                { name: 'Chocolate', imagePath: '/images/chocolate.png' },
+                { name: 'Vanilla', imagePath: '/images/vanilla.png' },
+              ])
+        );
+    }),
+];
+```
+
+Om de mocks te integreren, gebruiken we node.js met jest als testrunner
+
+```JSX
+import { setupServer } from 'msw/node';
+import { handlers } from './handlers';
+
+// This configures a request mocking server with the given request handlers.
+export const server = setupServer(...handlers);
+```
+
+Vervolgens moet de app geconfigureerd worden zodat MSW de netwerk requests kan ontvangen en de juiste responses terug geven die we in de handlers hebben opgezet.
+Dit word gedaan via boiler plate code uit de documentatie https://mswjs.io/docs/getting-started/integrate/node#using-create-react-app
+Wat deze code doet, is de mocks uitvoeren en uiteindelijk de handlers resetten en de server sluiten als de tests gedaan zijn.
