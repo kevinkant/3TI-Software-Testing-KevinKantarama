@@ -17,8 +17,11 @@ Inhoudstafel
 Externe Documentatielinks:
 
 https://github.com/testing-library/react-testing-library
+
 https://testing-library.com/docs/react-testing-library/cheatsheet/
+
 https://testing-library.com/docs/queries/about/
+
 https://mswjs.io/
 
 
