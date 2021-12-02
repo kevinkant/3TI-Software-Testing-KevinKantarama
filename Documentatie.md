@@ -346,7 +346,7 @@ test('displays image for each scoop option from server', async() => {
 
 In de tests zelf hoeft er niet verwezen te worden naar MSW. Aangezien de applicatie geconfigureerd is om de calls via MSW op te vangen en de juiste handler response teruggeven
 
-Volgende doelstelling is om de afbeeldingen van de toppings (Garnering) voor de desserts te tonen.
+Volgende doelstelling is om de afbeeldingen van de toppings (Garnering) voor de desserts te tonen. Deze verloopt bijna analoog met de scoops test
 
 Ten eerste maken we een nieuwe handler
 
@@ -360,4 +360,25 @@ rest.get('http://localhost:3030/toppings', (req, res, ctx) => {
       ])
     );
   }),
+```
+
+De test is zo goed als identiek aan de voorbijgaande test
+
+```JSX
+test('Displays image for each toppings option from server', async () => {
+    //Mock Service Worker will return three toppings from server
+    render(<Options optionType="toppings" />);
+  
+    //find images, expect 3 based on what msw returns
+    const images = await screen.findAllByRole('img', { name: /topping$/i });
+    expect(images).toHaveLength(3);
+  
+    //check the actual alt text for the images
+    const imageTitles = images.map((img) => img.alt);
+    expect(imageTitles).toEqual([
+      'Cherries topping',
+      'M&Ms topping',
+      'Hot fudge topping',
+    ]);
+  });
 ```
