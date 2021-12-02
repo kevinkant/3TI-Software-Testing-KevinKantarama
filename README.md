@@ -1,6 +1,8 @@
 # 3TI-Software-Testing-KevinKantarama
 Repository voor de opdrachten van het vak "Software Testing". Gewerkt met Jest en React Testing Library
 
+Documentatie van het project: https://github.com/kevinkant/3TI-Software-Testing-KevinKantarama/blob/main/Documentatie.md
+
 
 # Logboek
 
