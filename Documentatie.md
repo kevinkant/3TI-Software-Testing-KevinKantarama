@@ -319,3 +319,45 @@ export const server = setupServer(...handlers);
 Vervolgens moet de app geconfigureerd worden zodat MSW de netwerk requests kan ontvangen en de juiste responses terug geven die we in de handlers hebben opgezet.
 Dit word gedaan via boiler plate code uit de documentatie https://mswjs.io/docs/getting-started/integrate/node#using-create-react-app
 Wat deze code doet, is de mocks uitvoeren en uiteindelijk de handlers resetten en de server sluiten als de tests gedaan zijn.
+
+Nu focussen we ons op het schrijven van de tests voor de "Order Entry "components". Er wordt getest op:
+- Als options component de /scoops endpoint oproept op de server, de scoopOptions haalt en ze vertoont in de ScoopOption component
+![](https://i.ibb.co/NsFsp3k/image.png)
+
+Dit is de eerste test
+
+```JSX
+import { render, screen } from '@testing-library/react'
+import Options from '../Options';
+
+test('displays image for each scoop option from server', async() => {
+    render(<Options optionType="scoops" />);
+
+    //find images
+    const scoopImages = await screen.findAllByRole('img', {name: /scoop$/i});
+    expect(scoopImages).toHaveLength(2); //handler has 2 elements in the array
+
+    //confirm alt text of images to be more sure that you've picked the right picture
+    const altText = scoopImages.map((element) => element.altText);
+    expect(altText).toEqual(['Chocolate scoop', 'Vanilla scoop']);
+
+})
+```
+
+In de tests zelf hoeft er niet verwezen te worden naar MSW. Aangezien de applicatie geconfigureerd is om de calls via MSW op te vangen en de juiste handler response teruggeven
+
+Volgende doelstelling is om de afbeeldingen van de toppings (Garnering) voor de desserts te tonen.
+
+Ten eerste maken we een nieuwe handler
+
+```JSX
+rest.get('http://localhost:3030/toppings', (req, res, ctx) => {
+    return res(
+      ctx.json([
+        { name: 'Cherries', imagePath: '/images/cherries.png' },
+        { name: 'M&Ms', imagePath: '/images/m-and-ms.png' },
+        { name: 'Hot fudge', imagePath: '/images/hot-fudge.png' },
+      ])
+    );
+  }),
+```

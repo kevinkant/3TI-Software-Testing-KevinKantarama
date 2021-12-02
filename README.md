@@ -40,16 +40,20 @@ Niet gewerkt door deadlines van Service management, data analytics en smart apps
 
 --
 ## Week 8 [07/11 - 14/11]
-- Section 4 code quizzes en optionele stukken afgewerkt **30min**
 - Niet gewerkt door deadlines van Digital Marketing en Smart Apps
 
 --
 ## Week 9 [14/11 - 24/11]
+- Section 4 code quizzes en optionele stukken afgewerkt **30min**
 - Begonnen aan section 5: Simulating Server Response with Mock Service Worker **30min**
 
 
 # Kwartaal 2
 ---
 ## Week 1 [24/11 - 01/12]
-- Verder gewerkt aan section 5: **1u**
+- Verder gewerkt aan section 5: Async testing **1u**
 - Documentatie MSW bekeken **30min**
+
+## Week 2 [01/12 - 08/12]
+- TODO: Error server response testing
+- TODO: Section 6: Testing components wrapped in a provider
